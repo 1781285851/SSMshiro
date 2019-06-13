@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dancer.crud.dao.AdministratorMapperDao" >
+
+	<!-- 添加管理员账号 -->
+	<insert id="insert" parameterType="com.dancer.crud.entity.Administrator">
+		INSERT INTO administrator(name,uuid,password,createtime) VALUES(#{Name},#{Uuid},#{Password},#{Createtime})
+	</insert>
+	
+	<!-- 查询管理员账号 -->
+	<select id="selectName" parameterType="string" resultType="com.dancer.crud.entity.Administrator">
+		SELECT 	name Name, 
+				uuid Uuid, 
+				password Password, 
+				createtime Createtime 
+		FROM administrator 
+		WHERE name = #{Name}
+	</select>
+	
+</mapper>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xmlns:web="http://java.sun.com/xml/ns/javaee" 
+		xmlns="http://java.sun.com/xml/ns/javaee" 
+		xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" 
+		version="2.5">
+
+	<!-- 1.spring的配置文件  -->
+	<context-param>
+    	<param-name>contextConfigLocation</param-name>
+    	<param-value>classpath:spring.xml</param-value>
+	</context-param>
+	
+	<!-- 2.Spring监听器 -->
+	<listener> 
+    	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+ 	</listener>
+ 	
+ 	<!-- 3.防止Spring内存溢出监听器 -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
+	
+	<!-- 4.springmvc的前端控制器，拦截所有请求 -->	
+ 	<servlet> 
+ 		<servlet-name>dispatcherServlet</servlet-name> 
+ 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> 	
+		<init-param>
+		<!-- springmvc的配置文件 -->
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring-mvc.xml</param-value>
+		</init-param>
+ 		<load-on-startup>1</load-on-startup> 
+ 	</servlet> 
+ 	<servlet-mapping> 
+ 		<servlet-name>dispatcherServlet</servlet-name> 
+ 		<url-pattern>/</url-pattern>
+  	</servlet-mapping>
+	
+	<!-- 5. 字符编码过滤器,一定要放在所有过滤器之前 -->
+	<filter>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+         <init-param>
+            <param-name>forceRequestEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceResponseEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+	</filter>
+	    <filter-mapping>
+        	<filter-name>CharacterEncodingFilter</filter-name>
+        	<url-pattern>/*</url-pattern>
+   		</filter-mapping>
+		
+	<!-- 6. 使用Rest风格的URI，将普通的post请求转为指定的delete或者put请求 -->
+	<filter>
+		<filter-name>HiddenHttpMethodFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+	</filter>	
+	<filter-mapping>
+		<filter-name>HiddenHttpMethodFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- 7.默认欢迎页面 -->
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+	
+	<!-- 8.shiro过虑器，DelegatingFilterProx会从spring容器中找shiroFilter -->
+	<filter>
+		<filter-name>shiroFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	
+	<!-- 9.去掉shiro自动跳转的登录页面出现jsessionid情况 -->
+	<session-config>
+		<!-- Disables URL-based sessions (no more 'jsessionid' in the URL using Tomcat) -->
+		<tracking-mode>COOKIE</tracking-mode>
+	</session-config> 
+
+</web-app>

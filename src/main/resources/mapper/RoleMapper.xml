@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dancer.crud.dao.RoleDao">
+	
+	<!-- 根据姓名查询当前用户的角色 -->
+	<select id="selectRoleByName" parameterType="string" resultType="string">
+		SELECT r.name
+		FROM administrator a,role r
+		WHERE a.role_id = r.id 
+		AND a.name = #{Name}
+	</select>
+	
+</mapper>
