@@ -1,2 +1,7 @@
 eclipse.preferences.version=1
-encoding//src/main/webapp/WEB-INF/views/modules/sys/notifications.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/modules/sys/components.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/modules/sys/forms.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/modules/sys/icons.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/modules/sys/memberRegistration.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/modules/sys/tables.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/modules/sys/typography.jsp=UTF-8

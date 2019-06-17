@@ -174,7 +174,7 @@ pageContext.setAttribute("basePath",basePath);
 						<li class="nav-item active">
 							<a href="dashboard">
 								<i class="la la-dashboard"></i>
-								<p>Dashboard</p>
+								<p>首页</p>
 								<span class="badge badge-count">5</span>
 							</a>
 						</li>
@@ -200,9 +200,9 @@ pageContext.setAttribute("basePath",basePath);
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="notifications">
+							<a href="memberRegistration">
 								<i class="la la-bell"></i>
-								<p>Notifications</p>
+								<p>会员注册</p>
 								<span class="badge badge-success">3</span>
 							</a>
 						</li>
@@ -214,12 +214,12 @@ pageContext.setAttribute("basePath",basePath);
 							</a>
 						</li>
 						<li class="nav-item">
-						<shiro:hasRole name="T1">
+							<shiro:hasRole name="T1">
 							<a href="icons">
-						</shiro:hasRole>	
 								<i class="la la-fonticons"></i>
 								<p>Icons</p>
 							</a>
+							</shiro:hasRole>
 						</li>
 						<li class="nav-item update-pro">
 							<button  data-toggle="modal" data-target="#modalUpdate">
@@ -380,7 +380,7 @@ pageContext.setAttribute("basePath",basePath);
 											</div>
 											<div class="col-7 d-flex align-items-center">
 												<div class="numbers">
-													<p class="card-category">House</p>
+													<p class="card-category">Shuffle</p>
 													<h4 class="card-title">1,294</h4>
 												</div>
 											</div>

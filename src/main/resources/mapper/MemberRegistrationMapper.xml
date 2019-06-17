@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dancer.crud.dao.MemberRegistrationDao">
+	
+	<!-- 添加会员 -->
+	<insert id="insertMenber" parameterType="com.dancer.crud.entity.MemberRegistration">
+		INSERT INTO menber(club_card,name,gender,dance_types_id,identity_card,phone,qq,wechat,creation_time,administrator) VALUES(#{ClubCard},#{Name},#{Gender},#{DanceTypesId},#{IdentityCard},#{Phone},#{QQ},#{Wechat},#{CreationTime},#{Administrator})
+	</insert>
+	
+	<!-- 根据身份号码查询该会员是否存在 -->
+	<!-- 查询管理员账号 -->
+	<select id="selectMenberByIdentityCard" parameterType="string" resultType="com.dancer.crud.entity.MemberRegistration">
+		SELECT 	club_card ClubCard,
+				name Name,
+				gender Gender,
+				dance_types_id DanceTypesId,
+				identity_card IdentityCard,
+				phone Phone,
+				qq QQ,
+				wechat Wechat,
+				creation_time CreationTime,
+				administrator Administrator 
+		FROM menber 
+		WHERE identity_card = #{IdentityCard}
+	</select>
+	
+</mapper>

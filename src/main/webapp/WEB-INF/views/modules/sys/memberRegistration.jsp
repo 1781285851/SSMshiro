@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%    
+String path = request.getContextPath();    
+// 获得本项目的地址(例如: http://localhost:8080/MyApp/)赋值给basePath变量    
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";    
+// 将 ”项目路径basePath” 放入pageContext中，待以后用EL表达式读出。    
+pageContext.setAttribute("basePath",basePath);    
+%>  
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <html>
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -10,6 +18,7 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
 	<link rel="stylesheet" href="${pageScope.basePath}static/modules/sys/assets/css/ready.css">
 	<link rel="stylesheet" href="${pageScope.basePath}static/modules/sys/assets/css/demo.css">
+	 <script type="text/javascript" src="${pageScope.basePath}static/modules/sys/memberRegistration.js"></script>
 </head>
 <body>
 	<div class="wrapper">
@@ -171,7 +180,7 @@
 						<li class="nav-item">
 							<a href="dashboard">
 								<i class="la la-dashboard"></i>
-								<p>Dashboard</p>
+								<p>首页</p>
 								<span class="badge badge-count">5</span>
 							</a>
 						</li>
@@ -197,9 +206,9 @@
 							</a>
 						</li>
 						<li class="nav-item active">
-							<a href="notifications">
+							<a href="memberRegistration">
 								<i class="la la-bell"></i>
-								<p>Notifications</p>
+								<p>会员注册</p>
 								<span class="badge badge-success">3</span>
 							</a>
 						</li>
@@ -211,13 +220,15 @@
 							</a>
 						</li>
 						<li class="nav-item">
+							<shiro:hasRole name="T1">
 							<a href="icons">
 								<i class="la la-fonticons"></i>
 								<p>Icons</p>
 							</a>
+							</shiro:hasRole>
 						</li>
 						<li class="nav-item update-pro">
-							<button  data-toggle="modal" data-target="#modalUpdate">
+							<button  data-toggle="modal" data-target="#modalUpdate" formaction="logout">
 								<i class="la la-hand-pointer-o"></i>
 								<p>Update To Pro</p>
 							</button>
@@ -228,122 +239,82 @@
 			<div class="main-panel">
 				<div class="content">
 					<div class="container-fluid">
-						<h4 class="page-title">Notifications</h4>
+						<h4 class="page-title">Member Registration</h4>
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-4">
 								<div class="card">
 									<div class="card-body">
 										<div class="form">
-											<div class="form-group from-show-notify row">
-												<div class="col-lg-3 col-md-3 col-sm-12 text-right">
-													<label>姓名 :</label>
-												</div>
-												<div class="col-lg-3 col-md-9 col-sm-12">
-    												<input type="email" class="form-control" id="exampleInputEmail1">
-												</div>
-											</div>
-											<div class="form-group from-show-notify row">
-												<div class="col-lg-3 col-md-3 col-sm-12 text-right">
-													<label>出生年月  :</label>
-												</div>
-												<div class="col-lg-3 col-md-9 col-sm-12">
-    												<input type="email" class="form-control" id="exampleInputEmail1">
-												</div>
-											</div>
-											<div class="form-group from-show-notify row">
-												<div class="col-lg-3 col-md-3 col-sm-12 text-right">
-													<label>身份证号 :</label>
-												</div>
-												<div class="col-lg-3 col-md-9 col-sm-12">
-    												<input type="email" class="form-control" id="exampleInputEmail1">
-												</div>
-											</div>
-											<div class="form-group from-show-notify row">
-												<div class="col-lg-3 col-md-3 col-sm-12 text-right">
-													<label>联系电话 :</label>
-												</div>
-												<div class="col-lg-3 col-md-9 col-sm-12">
-    												<input type="email" class="form-control" id="exampleInputEmail1">
-												</div>
-											</div>
-											<div class="form-group from-show-notify row">
-												<div class="col-lg-3 col-md-3 col-sm-12 text-right">
-													<label>	QQ :</label>
-												</div>
-												<div class="col-lg-3 col-md-9 col-sm-12">
-    												<input type="email" class="form-control" id="exampleInputEmail1">
-												</div>
-											</div>
-											<div class="form-group from-show-notify row">
-												<div class="col-lg-3 col-md-3 col-sm-12 text-right">
-													<label>	微信 :</label>
-												</div>
-												<div class="col-lg-3 col-md-9 col-sm-12">
-    												<input type="email" class="form-control" id="exampleInputEmail1">
-												</div>
-											</div>
-											<div class="form-group from-show-notify row">
-												<div class="col-lg-3 col-md-3 col-sm-12 text-right">
-													<label>	照片 :</label>
-												</div>
-												<div class="col-lg-3 col-md-9 col-sm-12">
-									    			<div class="input-group">
-									                    <input type="text" class="form-control" onkeydown="return false;" onpaste="return false;" placeholder="点击右侧按钮上传照片">
-									                    <label class="input-group-btn">
-									                        <span class="btn btn-primary"> 
-									                            <i class="glyphicon glyphicon-folder-open"></i>  
-									                            	上传照片 <input type="file" style="display: none;" multiple>
-									                        </span>
-									                    </label>
-									                </div>
-												</div>
-											</div>
-											
-											
-											
-											<div class="form-group from-show-notify row">
-												<div class="col-lg-3 col-md-3 col-sm-12 text-right">
-													<label>性别 :</label>
-												</div>
-												<div class="col-lg-4 col-md-9 col-sm-12">
-													<select class="form-control input-fixed" id="notify_state">
-														<option value="primary">男</option>
-														<option value="info">女</option>
+										<div class="panel panel-default">
+										
+											<form class="form-horizontal">
+											 <div class="form-group">
+											    <div class="col-sm-12">
+											      <input type="text" class="form-control" id="hykh" placeholder="请输入会员卡号">
+											    </div>
+											  </div>
+											  <div class="form-group">
+											    <div class="col-sm-12">
+											      <input type="text" class="form-control" id="yhm" placeholder="请输入会员名">
+											    </div>
+											  </div>
+											  <div class="form-group">
+											    <div class="col-sm-12">
+											      <input type="text" class="form-control" id="sfzhm" placeholder="请输入身份证号码">
+											    </div>
+											  </div>
+											  <div class="form-group">
+											    <div class="col-sm-12">
+											      <input type="text" class="form-control" id="lxdh" placeholder="请输入联系电话">
+											    </div>
+											  </div>
+											  <div class="form-group">
+											    <div class="col-sm-12">
+											      <input type="text" class="form-control" id="qq" placeholder="请输入QQ">
+											    </div>
+											  </div>
+											  <div class="form-group">
+											    <div class="col-sm-12">
+											      <input type="text" class="form-control" id="wx" placeholder="请输入微信">
+											    </div>
+											  </div>
+											  <div class="form-group">
+											    <div class="col-sm-12">
+											      <input type="text" class="form-control" id="czry" placeholder="操作人员">
+											    </div>
+											  </div>
+											  <div class="form-group">
+												<div class="col-sm-12">
+													<select class="form-control input-fixed" id="xb">
+													<option value="0">请选择性别....</option>
+														<option value="1">男</option>
+														<option value="2">女</option>
 													</select>
 												</div>
 											</div>
-											
-											<div class="form-group from-show-notify row">
-												<div class="col-lg-3 col-md-3 col-sm-12 text-right">
-													<label>舞种 :</label>
-												</div>
-												<div class="col-lg-4 col-md-9 col-sm-12">
-													<select class="form-control input-fixed" id="notify_state">
-														<option value="primary">Breaking</option>
-														<option value="info">Poppin</option>
-														<option value="success">Locking</option>
-														<option value="warning">HioHop</option>
-														<option value="danger">Shuffle</option>
+											<div class="form-group">
+												<div class="col-sm-12">
+													<select class="form-control input-fixed" id="wz">
+														<option value="0">请选择舞种....</option>
+														<option value="1">Breaking</option>
+														<option value="2">Poppin</option>
+														<option value="3">Locking</option>
+														<option value="4">HipHop</option>
+														<option value="5">Jazz</option>
+														<option value="6">Shuffle</option>
+														<option value="7">Urban</option>
+														<option value="8">Wacking</option>
 													</select>
 												</div>
 											</div>
-										</div>
-									</div>
-									
-									
-									<div class="card-footer">
-										<div class="form">
-											<div class="form-group from-show-notify row">
-												<div class="col-lg-3 col-md-3 col-sm-12">
-
-												</div>
-												<div class="col-lg-4 col-md-9 col-sm-12">
-													<button id="displayNotif" class="btn btn-success">注册</button>
-												</div>
-												<div class="col-lg-4 col-md-9 col-sm-12">
-													<button id="displayNotif" class="btn btn-success">重置</button>
-												</div>
-											</div>
+											  <div class="modal-footer">
+												<button class="btn btn-primary" type="button" onclick="registerMember()">注册</button>
+												<button class="btn btn-info" type="button" onclick="resetCondition()">重置</button>
+											  </div>
+										   </form>
+											
+											
+											
 										</div>
 									</div>
 								</div>
@@ -352,30 +323,11 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	<!-- Modal -->
-	<div class="modal fade" id="modalUpdate" tabindex="-1" role="dialog" aria-labelledby="modalUpdatePro" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered" role="document">
-			<div class="modal-content">
-				<div class="modal-header bg-primary">
-					<h6 class="modal-title"><i class="la la-frown-o"></i> Under Development</h6>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body text-center">									
-					<p>Currently the pro version of the <b>Ready Dashboard</b> Bootstrap is in progress development</p>
-					<p>
-					<b>We'll let you know when it's done</b></p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
+			
+
 </body>
+
+
 <script src="${pageScope.basePath}static/modules/sys/assets/js/core/jquery.3.2.1.min.js"></script>
 <script src="${pageScope.basePath}static/modules/sys/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
 <script src="${pageScope.basePath}static/modules/sys/assets/js/core/popper.min.js"></script>
@@ -389,32 +341,6 @@
 <script src="${pageScope.basePath}static/modules/sys/assets/js/plugin/chart-circle/circles.min.js"></script>
 <script src="${pageScope.basePath}static/modules/sys/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
 <script src="${pageScope.basePath}static/modules/sys/assets/js/ready.min.js"></script>
-<script>
-	$('#displayNotif').on('click', function(){
-		var placementFrom = $('#notify_placement_from option:selected').val();
-		var placementAlign = $('#notify_placement_align option:selected').val();
-		var state = $('#notify_state option:selected').val();
-		var style = $('#notify_style option:selected').val();
-		var content = {};
 
-		content.message = 'Turning standard Bootstrap alerts into "notify" like notifications';
-		content.title = 'Bootstrap notify';
-		if (style == "withicon") {
-			content.icon = 'la la-bell';
-		} else {
-			content.icon = 'none';
-		}
-		content.url = 'index.html';
-		content.target = '_blank';
 
-		$.notify(content,{
-			type: state,
-			placement: {
-				from: placementFrom,
-				align: placementAlign
-			},
-			time: 1000,
-		});
-	});
-</script>
 </html>

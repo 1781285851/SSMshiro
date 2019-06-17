@@ -21,8 +21,8 @@
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 	<!-- SpringMVC的配置文件，包含网站跳转逻辑的控制，配置 -->
 	
-	<!--组件扫描，扫描controller的注解 -->
-	<context:component-scan base-package="com.dancer" use-default-filters="false">
+	<!--组件扫描，扫描controller的注解 ，不会自动扫描com.dancer包下的所有注解，因为use-default-filters改为false-->
+	<context:component-scan base-package="com.dancer.*.*" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	
@@ -38,7 +38,10 @@
 	<!-- 两个标准配置 -->
 	<!-- 将springmvc不能处理的请求交给tomcat -->
 	<mvc:default-servlet-handler></mvc:default-servlet-handler>
-	<!-- 能支持springmvc更高级的一些功能，JSR303，快捷的ajax -->
+	<!-- 能支持springmvc更高级的一些功能，JSR303，快捷的ajax				
+			声明了@RequestMapping、@RequestBody、@ResponseBody等。并且，该配置默认加载很多的参数绑定方法，比如json转换解析器等。
+			SpringMVC必须要配置的
+			 -->
 	<mvc:annotation-driven></mvc:annotation-driven>
 	
 	

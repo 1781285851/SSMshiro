@@ -20,12 +20,18 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 	
-	<!--组件扫描，扫描除controller以外所有的注解 -->
-	<context:component-scan base-package="com.dancer">
+	
+	
+	
+	<!--自动扫描com.dancer包下的所有注解-->
+	<context:component-scan base-package="com.dancer.*.*">
+		<!--但是排除Controller的注解-->
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+		<!--exclude-filter：排除，得到除Controller以外的注解-->
 	</context:component-scan>
 	
-					<!-- Spring的配置文件，这里主要配置和业务逻辑有关的 -->
+	
+	<!-- Spring的配置文件，这里主要配置和业务逻辑有关的 -->
 					
 	<!-- ========================数据源，事务控制,xxx======================== -->
 	<context:property-placeholder location="classpath:dbconfig.properties"/>
