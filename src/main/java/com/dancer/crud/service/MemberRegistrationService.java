@@ -49,12 +49,105 @@ public class MemberRegistrationService implements IMemberRegistrationService{
 			memberRegistration.setDanceTypesId(DanceTypesId);
 			Date creationTime=new Date();
 			memberRegistration.setCreationTime(creationTime);
-			
+			memberRegistration.setState(0);
 			int num =  memberRegistrationDao.insertMenber(memberRegistration);
 			return "success";
 		}else{
 			return "failed";
 		}
+	}
+
+	
+	/**
+	 * 查询所有会员总数
+	 * @return
+	 */
+	@Override
+	public int selectCountService() {
+		int sum = memberRegistrationDao.selectCount();
+		return sum;
+	}
+
+	
+	/**
+	 * 查询Breaking会员总数
+	 * @return
+	 */
+	@Override
+	public int selectCountByBreakingService() {
+		int sumBreaking = memberRegistrationDao.selectCountByBreaking();
+		return sumBreaking;
+	}
+
+	
+	/**
+	 * 查询Poppin会员总数
+	 * @return
+	 */
+	@Override
+	public int selectCountByPoppinService() {
+		int sumPoppin = memberRegistrationDao.selectCountByPoppin();
+		return sumPoppin;
+	}
+
+	/**
+	 * 查询Locking会员总数
+	 * @return
+	 */
+	@Override
+	public int selectCountByLockingService() {
+		int sumLocking = memberRegistrationDao.selectCountByLocking();
+		return sumLocking;
+	}
+
+	/**
+	 * 查询Hiphop会员总数
+	 * @return
+	 */
+	@Override
+	public int selectCountByHiphopService() {
+		int sumHiphop = memberRegistrationDao.selectCountByHiphop();
+		return sumHiphop;
+	}
+
+	/**
+	 * 查询Jazz会员总数
+	 * @return
+	 */
+	@Override
+	public int selectCountByJazzService() {
+		int sumJazz = memberRegistrationDao.selectCountByJazz();
+		return sumJazz;
+	}
+
+	/**
+	 * 查询Shuffle会员总数
+	 * @return
+	 */
+	@Override
+	public int selectCountByShuffleService() {
+		int sumShuffle = memberRegistrationDao.selectCountByShuffle();
+		return sumShuffle;
+	}
+
+	/**
+	 * 查询Urban会员总数
+	 * @return
+	 */
+	@Override
+	public int selectCountByUrbanService() {
+		int sumUrban = memberRegistrationDao.selectCountByUrban();
+		return sumUrban;
+	}
+
+	/**
+	 * 查询Wacking会员总数
+	 * @return
+	 */
+	@Override
+	public int selectCountByWackingService() {
+		int sumWacking = memberRegistrationDao.selectCountByWacking();
+		return sumWacking;
 	}
 
 

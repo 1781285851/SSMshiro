@@ -16,7 +16,7 @@ function resetCondition(){
 	$("#qq").val("");
 	$("#wx").val("");
 	$("#czry").val("");
-	$("#xb").val("0");
+	$("#xb").val("2");
 	$("#wz").val("0");
 	
 }
@@ -31,10 +31,13 @@ function registerMember(){
 	var qq=document.getElementById("qq").value;
 	var Wechat=document.getElementById("wx").value;
 	var Administrator=document.getElementById("czry").value;
-	var Gender=document.getElementById('xb').selectedIndex; 
-	var DanceTypesId=document.getElementById('wz').selectedIndex; 
+//	var Gender=document.getElementById('xb').selectedIndex;
+	var GenderString=document.getElementById('xb')
+	var index=GenderString.selectedIndex;
+	var Gender=GenderString.options[index].text;
+	var DanceTypesId=document.getElementById('wz').selectedIndex; //这里取到的是<option value="1">Breaking</option>的位置，而不是value值，从0开始
 	alert(ClubCard+":"+Name+":"+IdentityCard+":"+Phone+":"+qq+":"+Wechat+":"+Administrator+":"+Gender+":"+DanceTypesId);
-	if(ClubCard!=null && Name!=null && IdentityCard!=null && Phone!=null && qq!=null && Wechat!=null && Administrator!=null && Gender!="0" && DanceTypesId!="0"){
+	if(ClubCard!=null && Name!=null && IdentityCard.length==18 && Phone.length==11 && qq!=null && Wechat!=null && Administrator!=null && Gender!="2" && DanceTypesId!="0"){
 		$.ajax({
 			type:"POST",
 			url:getRootPath()+"registerMember",
@@ -61,6 +64,7 @@ function registerMember(){
 		});
 		
 	}else {
-		alert("请填写完整信息");
+		alert("用户信息填写错误，或用户信息不完整");
 	}	
 }
+

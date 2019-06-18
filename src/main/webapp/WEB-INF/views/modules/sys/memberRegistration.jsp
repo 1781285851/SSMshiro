@@ -25,7 +25,7 @@ pageContext.setAttribute("basePath",basePath);
 		<div class="main-header">
 			<div class="logo-header">
 				<a href="index.html" class="logo">
-					Ready Dashboard
+					Hello DE
 				</a>
 				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
@@ -286,9 +286,10 @@ pageContext.setAttribute("basePath",basePath);
 											  <div class="form-group">
 												<div class="col-sm-12">
 													<select class="form-control input-fixed" id="xb">
-													<option value="0">请选择性别....</option>
+														<option value="2">请选择性别....</option>
+														<option value="0">女</option>
 														<option value="1">男</option>
-														<option value="2">女</option>
+														
 													</select>
 												</div>
 											</div>

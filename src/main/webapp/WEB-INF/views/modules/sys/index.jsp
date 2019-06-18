@@ -18,12 +18,14 @@ pageContext.setAttribute("basePath",basePath);
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
 	<link rel="stylesheet" href="${pageScope.basePath}static/modules/sys/assets/css/ready.css">
 	<link rel="stylesheet" href="${pageScope.basePath}static/modules/sys/assets/css/demo.css">
+	<script type="text/javascript" src="${pageScope.basePath}static/modules/sys/index.js"></script>
+	
 </head>
 <body>
 	<div class="wrapper">
 		<div class="main-header">
 			<div class="logo-header">
-				D Dancer Element
+				Hello DE
 				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
@@ -247,7 +249,7 @@ pageContext.setAttribute("basePath",basePath);
 											<div class="col-7 d-flex align-items-center">
 												<div class="numbers">
 													<p class="card-category">会员</p>
-													<h4 class="card-title">1,294</h4>
+													<h4 class="card-title"><%=request.getAttribute("sum")%></h4>
 												</div>
 											</div>
 										</div>

@@ -7,7 +7,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 添加会员 -->
 	<insert id="insertMenber" parameterType="com.dancer.crud.entity.MemberRegistration">
-		INSERT INTO menber(club_card,name,gender,dance_types_id,identity_card,phone,qq,wechat,creation_time,administrator) VALUES(#{ClubCard},#{Name},#{Gender},#{DanceTypesId},#{IdentityCard},#{Phone},#{QQ},#{Wechat},#{CreationTime},#{Administrator})
+		INSERT INTO menber(club_card,name,gender,dance_types_id,identity_card,phone,qq,wechat,creation_time,state,administrator) VALUES(#{ClubCard},#{Name},#{Gender},#{DanceTypesId},#{IdentityCard},#{Phone},#{QQ},#{Wechat},#{CreationTime},#{State},#{Administrator})
 	</insert>
 	
 	<!-- 根据身份号码查询该会员是否存在 -->
@@ -22,9 +22,55 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				qq QQ,
 				wechat Wechat,
 				creation_time CreationTime,
+				state State,
 				administrator Administrator 
 		FROM menber 
 		WHERE identity_card = #{IdentityCard}
+	</select>
+	
+	<!-- 查询会员总数 -->
+	<select id="selectCount" resultType="int">
+		SELECT COUNT(*) FROM menber
+	</select>
+	
+	<!-- 查询Breaking会员总数 -->
+	<select id="selectCountByBreaking" resultType="int">
+		SELECT COUNT(*) FROM menber  WHERE dance_types_id in 1
+	</select>
+		
+	<!-- 查询Poppin会员总数 -->
+	<select id="selectCountByPoppin" resultType="int">
+		SELECT COUNT(*) FROM menber  WHERE dance_types_id in 2
+	</select>
+	
+	<!-- 查询Locking会员总数 -->
+	<select id="selectCountByLocking" resultType="int">
+		SELECT COUNT(*) FROM menber  WHERE dance_types_id in 3
+	</select>
+	
+	<!-- 查询Hiphop会员总数 -->
+	<select id="selectCountByHiphop" resultType="int">
+		SELECT COUNT(*) FROM menber  WHERE dance_types_id in 4
+	</select>
+	
+	<!-- 查询Jazz会员总数 -->
+	<select id="selectCountByJazz" resultType="int">
+		SELECT COUNT(*) FROM menber  WHERE dance_types_id in 5
+	</select>
+	
+	<!-- 查询Shuffle会员总数 -->
+	<select id="selectCountByShuffle" resultType="int">
+		SELECT COUNT(*) FROM menber  WHERE dance_types_id in 6
+	</select>
+	
+	<!-- 查询Urban会员总数 -->
+	<select id="selectCountByUrban" resultType="int">
+		SELECT COUNT(*) FROM menber  WHERE dance_types_id in 7
+	</select>
+	
+	<!-- 查询Wacking会员总数 -->
+	<select id="selectCountByWacking" resultType="int">
+		SELECT COUNT(*) FROM menber  WHERE dance_types_id in 8
 	</select>
 	
 </mapper>

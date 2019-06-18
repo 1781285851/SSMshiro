@@ -11,7 +11,7 @@ public class MemberRegistration {
 	private String ClubCard;
 	//姓名
 	private String Name;
-	//性别
+	//性别，1代表男，0代表女
 	private String Gender;
 	//舞种id
 	private Integer DanceTypesId;
@@ -27,6 +27,8 @@ public class MemberRegistration {
 	private Date CreationTime;
 	//管理员
 	private String Administrator;
+	//状态，0是存在，1为删除
+	private Integer State;
 	
 	
 	public Integer getId() {
@@ -94,6 +96,12 @@ public class MemberRegistration {
 	}
 	public void setAdministrator(String administrator) {
 		Administrator = administrator;
+	}
+	public Integer getState() {
+		return State;
+	}
+	public void setState(Integer state) {
+		State = state;
 	}
 	
 }
