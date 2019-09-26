@@ -90,10 +90,14 @@
 	</filter-mapping>
 	
 	
-	<!-- 9.去掉shiro自动跳转的登录页面出现jsessionid情况 -->
+	<!-- 9.去掉shiro自动跳转的登录页面出现jsessionid情况 
 	<session-config>
-		<!-- Disables URL-based sessions (no more 'jsessionid' in the URL using Tomcat) -->
+		 Disables URL-based sessions (no more 'jsessionid' in the URL using Tomcat) 
 		<tracking-mode>COOKIE</tracking-mode>
 	</session-config> 
+	-->
+	
 
+	
+	
 </web-app>

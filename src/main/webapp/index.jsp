@@ -14,8 +14,11 @@
 </head>
 <body>
 		<%
-	//项目已经使用了shiro，所以不需要重定向 
-   	//response.sendRedirect(request.getContextPath() + "/indexs.do");     //重定向
+	//第一次访问http://localhost:8080/SSMshiro会跳转到配置的<property name="loginUrl" value="login"/>login页面，
+	//当再次访问，由于第一次已经登陆了，所以会直接跳转当前页面
+   	response.sendRedirect("/SSMshiro/dashboard");     //重定向
+   	//request.getRequestDispatcher("/dashboard").forward(request,response);		//转发
+   	//目前两张方法都可以
 %>
 	
 </body>

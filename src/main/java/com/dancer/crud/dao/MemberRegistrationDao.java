@@ -1,78 +1,113 @@
 package com.dancer.crud.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.dancer.crud.entity.MemberRegistration;
+import com.dancer.crud.entity.MemberRegistrationVo;
+import com.dancer.crud.entity.MemberVo;
 
 @Repository
 public interface MemberRegistrationDao {
 	
 	/**
-	 * Ìí¼Ó»áÔ±
+	 * æ·»åŠ ä¼šå‘˜
 	 * @param memberRegistration
 	 * @return
 	 */
 	int insertMenber(MemberRegistration memberRegistration);
 	
 	/**
-	 * ¸ù¾İÉí·İÖ¤ÅĞ¶Ï¸ÃÓÃ»§ÊÇ·ñ´æÔÚ
+	 * æ·»åŠ ç…§ç‰‡åœ°å€ä¿¡æ¯
+	 * @param memberRegistration
+	 * @return
+	 */
+	int insertPhoto(MemberRegistration memberRegistration);
+	
+	/**
+	 * åˆ é™¤ç”¨æˆ·ï¼ˆå°†çŠ¶æ€æ”¹ä¸º1ï¼‰
+	 * @param IdentityCard
+	 * @return
+	 */
+	int deleteMem(String IdentityCard);
+	
+	/**
+	 * æ ¹æ®èº«ä»½å·ç æŸ¥è¯¢è¯¥ä¼šå‘˜æ˜¯å¦å­˜åœ¨
 	 * @param IdentityCard
 	 * @return
 	 */
 	MemberRegistration selectMenberByIdentityCard(String IdentityCard);
 	
 	/**
-	 * ²éÑ¯ËùÓĞ»áÔ±×ÜÊı
+	 * æŸ¥è¯¢ä¼šå‘˜æ€»æ•°
 	 * @return
 	 */
 	int selectCount();
 	
 	/**
-	 * ²éÑ¯Breaking»áÔ±×ÜÊı
+	 * æŸ¥è¯¢Breakingä¼šå‘˜æ€»æ•°
 	 * @return
 	 */
 	int selectCountByBreaking();
 	
 	/**
-	 * ²éÑ¯Poppin»áÔ±×ÜÊı
+	 * æŸ¥è¯¢Poppinä¼šå‘˜æ€»æ•°
 	 * @return
 	 */
 	int selectCountByPoppin();
 	
 	/**
-	 * ²éÑ¯Locking»áÔ±×ÜÊı
+	 * æŸ¥è¯¢Lockingä¼šå‘˜æ€»æ•°
 	 * @return
 	 */
 	int selectCountByLocking();
 	
 	/**
-	 * ²éÑ¯Hiphop»áÔ±×ÜÊı
+	 * æŸ¥è¯¢Hiphopä¼šå‘˜æ€»æ•°
 	 * @return
 	 */
 	int selectCountByHiphop();
 	
 	/**
-	 * ²éÑ¯Jazz»áÔ±×ÜÊı
+	 * æŸ¥è¯¢Jazzä¼šå‘˜æ€»æ•°
 	 * @return
 	 */
 	int selectCountByJazz();
 	
 	/**
-	 * ²éÑ¯Shuffle»áÔ±×ÜÊı
+	 * æŸ¥è¯¢Shuffleä¼šå‘˜æ€»æ•°
 	 * @return
 	 */
 	int selectCountByShuffle();
 	
 	/**
-	 * ²éÑ¯Urban»áÔ±×ÜÊı
+	 * æŸ¥è¯¢Urbanä¼šå‘˜æ€»æ•°
 	 * @return
 	 */
 	int selectCountByUrban();
 	
 	/**
-	 * ²éÑ¯Wacking»áÔ±×ÜÊı
+	 * æŸ¥è¯¢Wackingä¼šå‘˜æ€»æ•°
 	 * @return
 	 */
 	int selectCountByWacking();
+	
+	/**
+	 * æ ¹æ®æ¡ä»¶æŸ¥è¯¢ä¼šå‘˜æ•°æ®
+	 * @param memberRegistrationVo
+	 * @return
+	 */
+	List<MemberRegistrationVo> selectMenber(@Param("ClubCard") String ClubCard,
+											@Param("Name") String Name,
+											@Param("Administrator") String Administrator,
+											@Param("Phone") String Phone,
+											@Param("IdentityCard") String IdentityCard,
+											@Param("Gender") String Gender,
+											@Param("DanceTypesId") String DanceTypesId,
+											@Param("Startdate") String Startdate,
+											@Param("Enddate") String Enddate
+											);
 	
 }

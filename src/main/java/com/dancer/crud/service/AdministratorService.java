@@ -11,7 +11,7 @@ import com.dancer.crud.dao.AdministratorMapperDao;
 import com.dancer.crud.entity.Administrator;
 
 @Service
-public class AdministratorService implements IAdministratorService{
+public class AdministratorService{
 	
 	@Autowired
 	AdministratorMapperDao administratorMapperDao;
@@ -20,41 +20,34 @@ public class AdministratorService implements IAdministratorService{
 	Administrator administrator;
 	
 	/**
-	 * ¸ù¾İĞÕÃû²éÑ¯¹ÜÀíÔ±ÕËºÅ
+	 * æŸ¥è¯¢ç®¡ç†å‘˜è´¦å·
 	 */
-	@Override
 	public Administrator selectAdministrator(String name) {
-		//¸ù¾İĞÕÃû²éÑ¯ÊÇ·ñÎª¿Õ
 		Administrator administrator = administratorMapperDao.selectName(name);
 		return administrator;
 	}
 
 	
 	/**
-	 * ×¢²á¹ÜÀíÔ±ÕËºÅ
+	 * åŠ å¯†æ·»åŠ ç®¡ç†å‘˜è´¦å·
 	 */
-	@Override
 	public String insertAdministrator(String username,String password) {
-		//¸ù¾İĞÕÃû²éÑ¯¹ÜÀíÔ±ÕËºÅ
+		//æŸ¥è¯¢ç®¡ç†å‘˜è´¦å·
 		Administrator administrator1 = selectAdministrator(username);
-		//Administrator administrator1 = new Administrator();
 		if(null == administrator1){
-			//Éú³ÉµÄËæ»úÊı
+			//è·å–UUID
 			String salt = UUID.randomUUID().toString().toUpperCase();
-			//½øĞĞmd5¼ÓÃÜ
+			//MD5åŠ å¯†
 			Md5Hash hash = new Md5Hash(password, salt, 1024);
 			String md5password = hash.toString();
-			//´´½¨Ê±¼ä
 			Date date=new Date();
 			administrator.setName(username);
 			administrator.setUuid(salt);
 			administrator.setPassword(md5password);
 			administrator.setCreatetime(date);
 			int num = administratorMapperDao.insert(administrator);
-			System.out.println("ÕËºÅ×¢²á³É¹¦");
 			return "succeed";
 		}else {
-			System.out.println("¸ÃÕËºÅÒÑ¾­´æÔÚ");
 			return "failed";
 		}
 	}

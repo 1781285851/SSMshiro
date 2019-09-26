@@ -1,10 +1,11 @@
 package com.dancer.crud.controller;
-//ÕâÊÇĞŞ¸ÄºóµÄqqqqq11111QWQW
+//ï¿½ï¿½ï¿½ï¿½ï¿½Ş¸Äºï¿½ï¿½qqqqq11111QWQW
 import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.dancer.crud.service.AdministratorService;
 
 /**
- * ´¦ÀíCRUDÇëÇó
+ * ç®¡ç†å‘˜çš„æ³¨å†Œå’Œç™»é™†
  * @author Administrator
  *
  */
@@ -35,7 +36,7 @@ public class AdministratorController {
 	
 	
 	/**
-	 * ÓÃ»§×¢²á
+	 * ç®¡ç†å‘˜çš„æ³¨å†Œ
 	 * @param name
 	 * @param password
 	 * @param boss
@@ -45,8 +46,8 @@ public class AdministratorController {
 	 * @throws ServletException 
 	 */
 	@RequestMapping(value="register", method = RequestMethod.POST)
-	@ResponseBody		//@ResponseBody±íÊ¾¸æËß¿ØÖÆÆ÷£¬ÎÒÖ»·µ»ØÊı¾İÄÚÈİ£¬¶ø²»ÊÇ×ª·¢»ØÍøÒ³	(Ajax´«µİ²ÎÊı)
-	public String register(@RequestParam("name") String name, @RequestParam("pwd") String password, Model model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	@ResponseBody		
+	public String register(@RequestParam("name") String name, @RequestParam("pwd") String password, Model model, HttpServletRequest request, HttpServletResponse response) throws ServletException{
 		String a = administratorService.insertAdministrator(name,password);
 		if(a == "succeed"){
 			return "true";
@@ -56,29 +57,61 @@ public class AdministratorController {
 		
 	}
 	
-	
+	/**
+	 * ç™»é™†
+	 * @param session
+	 * @param model
+	 * @param request
+	 * @param name
+	 * @param password
+	 * @return
+	 */
 	@RequestMapping(value="login", method = RequestMethod.POST)
-	public String login(Model model, HttpServletRequest request,@RequestParam("name") String name, @RequestParam("pwd") String password) {
-		// ´´½¨SubjectÊµÀı¶ÔÏó
+	public String login(HttpSession session, Model model, HttpServletRequest request,@RequestParam("name") String name, @RequestParam("pwd") String password) {
+		//åˆ›å»ºå½“å‰ç™»å½•çš„ä¸»ä½“ï¼Œæ³¨æ„ï¼šæ­¤æ—¶ä¸»ä½“æ²¡æœ‰ç»è¿‡è®¤è¯
 		Subject currentUser = SecurityUtils.getSubject();
-		// ÅĞ¶Ïµ±Ç°ÓÃ»§ÊÇ·ñÒÑµÇÂ¼
+		System.out.println("currentUser:"+currentUser);
+		System.out.println("currentUser:"+currentUser.isAuthenticated());
+		//åˆ¤æ–­å½“å‰ä¸»ä½“æ˜¯å¦å·²ç»ç™»å½•
 		if (currentUser.isAuthenticated() == false) {
+			//æ”¶é›†ä¸»ä½“ç™»å½•çš„èº«ä»½å‡­è¯ï¼Œå³è´¦å·å¯†ç 
+			//å‚æ•°1ï¼šå°†è¦ç™»å½•çš„ç”¨æˆ·å
+			//å‚æ•°2ï¼šç™»å½•çš„å¯†ç 
 			UsernamePasswordToken token = new UsernamePasswordToken(name, password);
 			try {
+				//ä¸»ä½“ç™»å½•
 				currentUser.login(token);
 			} catch (UnknownAccountException e) {
-				model.addAttribute("errorMsg", "ÕËºÅ²»´æÔÚ");
+				model.addAttribute("errorMsg", "æ‰¾ä¸åˆ°è´¦æˆ·-----å½“å‰è´¦æˆ·ä¸å­˜åœ¨");
 				return "modules/loginAndRegister/loginAndRegisterindexs";
 			} catch (IncorrectCredentialsException e) {
-				model.addAttribute("errorMsg", "ÓÃ»§Ãû/ÃÜÂë´íÎó");
+				model.addAttribute("errorMsg", "å¯†ç é”™è¯¯");
 				return "modules/loginAndRegister/loginAndRegisterindexs";
 			} catch (Exception e) {
-				model.addAttribute("errorMsg", "ÆäËûÒì³£ĞÅÏ¢");
+				model.addAttribute("errorMsg", "ç™»é™†å‡ºé”™");
 				return "modules/loginAndRegister/loginAndRegisterindexs";
 			}
 		}
+		session.setAttribute("name", name);
 		return "modules/sys/index";
 		
 	}
-
+	
+	/**
+	 * é€€å‡º
+	 */
+	@RequestMapping(value="logout")
+	public void logout() {
+		Subject subject = SecurityUtils.getSubject();
+		if (subject.isAuthenticated()) {
+			subject.logout(); // session ä¼šé”€æ¯ï¼Œåœ¨SessionListenerç›‘å¬sessioné”€æ¯ï¼Œæ¸…ç†æƒé™ç¼“å­˜
+		}
+	}
+	
+	/*
+	@RequestMapping(value="loginOk", method = RequestMethod.POST)
+	public String loginOk() {
+		return "modules/sys/index";
+	}
+		*/
 }

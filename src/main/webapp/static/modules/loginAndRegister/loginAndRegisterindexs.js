@@ -6,7 +6,6 @@ function getRootPath() {
 }
 
 
-
 //登陆
 function login(){
 	var name=document.getElementById("loginname").value;
@@ -71,3 +70,4 @@ function register(){
 		alert("两次密码不一致,或者'Boss'输入错误");
 	}	
 }
+

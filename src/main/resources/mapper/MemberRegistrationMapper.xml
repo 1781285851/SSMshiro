@@ -5,10 +5,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="com.dancer.crud.dao.MemberRegistrationDao">
 	
-	<!-- 添加会员 -->
+	<!-- 添加会员基本信息 -->
 	<insert id="insertMenber" parameterType="com.dancer.crud.entity.MemberRegistration">
-		INSERT INTO menber(club_card,name,gender,dance_types_id,identity_card,phone,qq,wechat,creation_time,state,administrator) VALUES(#{ClubCard},#{Name},#{Gender},#{DanceTypesId},#{IdentityCard},#{Phone},#{QQ},#{Wechat},#{CreationTime},#{State},#{Administrator})
+		INSERT INTO menber(club_card,name,gender,dance_types_id,identity_card,phone,qq,wechat,creation_time,administrator) VALUES(#{ClubCard},#{Name},#{Gender},#{DanceTypesId},#{IdentityCard},#{Phone},#{QQ},#{Wechat},#{CreationTime},#{Administrator})
 	</insert>
+	
+	<!-- 添加会员照片地址信息 -->
+	<update id="insertPhoto" parameterType="com.dancer.crud.entity.MemberRegistration">
+		UPDATE menber SET photo = #{Photo} WHERE identity_card = #{IdentityCard}
+	</update>
+	
+	<!-- 删除会员（将state改为1） -->
+	<update id="deleteMem" parameterType="String">
+		UPDATE menber SET state = 1 WHERE identity_card = #{IdentityCard}
+	</update>
 	
 	<!-- 根据身份号码查询该会员是否存在 -->
 	<!-- 查询管理员账号 -->
@@ -22,7 +32,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				qq QQ,
 				wechat Wechat,
 				creation_time CreationTime,
-				state State,
 				administrator Administrator 
 		FROM menber 
 		WHERE identity_card = #{IdentityCard}
@@ -35,42 +44,76 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- 查询Breaking会员总数 -->
 	<select id="selectCountByBreaking" resultType="int">
-		SELECT COUNT(*) FROM menber  WHERE dance_types_id in 1
+		SELECT COUNT(*) FROM menber WHERE dance_types_id = 1 AND state = 0
 	</select>
 		
 	<!-- 查询Poppin会员总数 -->
 	<select id="selectCountByPoppin" resultType="int">
-		SELECT COUNT(*) FROM menber  WHERE dance_types_id in 2
+		SELECT COUNT(*) FROM menber WHERE dance_types_id = 2 AND state = 0
 	</select>
 	
 	<!-- 查询Locking会员总数 -->
 	<select id="selectCountByLocking" resultType="int">
-		SELECT COUNT(*) FROM menber  WHERE dance_types_id in 3
+		SELECT COUNT(*) FROM menber WHERE dance_types_id = 3 AND state = 0
 	</select>
 	
 	<!-- 查询Hiphop会员总数 -->
 	<select id="selectCountByHiphop" resultType="int">
-		SELECT COUNT(*) FROM menber  WHERE dance_types_id in 4
+		SELECT COUNT(*) FROM menber WHERE dance_types_id = 4 AND state = 0
 	</select>
 	
 	<!-- 查询Jazz会员总数 -->
 	<select id="selectCountByJazz" resultType="int">
-		SELECT COUNT(*) FROM menber  WHERE dance_types_id in 5
+		SELECT COUNT(*) FROM menber WHERE dance_types_id = 5 AND state = 0
 	</select>
 	
 	<!-- 查询Shuffle会员总数 -->
 	<select id="selectCountByShuffle" resultType="int">
-		SELECT COUNT(*) FROM menber  WHERE dance_types_id in 6
+		SELECT COUNT(*) FROM menber WHERE dance_types_id = 6 AND state = 0
 	</select>
 	
 	<!-- 查询Urban会员总数 -->
 	<select id="selectCountByUrban" resultType="int">
-		SELECT COUNT(*) FROM menber  WHERE dance_types_id in 7
+		SELECT COUNT(*) FROM menber WHERE dance_types_id = 7 AND state = 0
 	</select>
 	
 	<!-- 查询Wacking会员总数 -->
 	<select id="selectCountByWacking" resultType="int">
-		SELECT COUNT(*) FROM menber  WHERE dance_types_id in 8
+		SELECT COUNT(*) FROM menber WHERE dance_types_id = 8 AND state = 0
+	</select>
+	
+	
+	<select id="selectMenber" resultType="com.dancer.crud.entity.MemberRegistrationVo">
+SELECT m.club_card ClubCard, m.name Name, m.gender Gender, m.identity_card IdentityCard, m.phone Phone, 
+m.creation_time CreationTime, m.administrator Administrator, d.dance_name DanceName 
+FROM menber m,dance d  
+WHERE m.dance_types_id = d.dance_id 
+AND m.state = 0 
+		<if test="ClubCard != null">
+AND m.club_card = #{ClubCard} 
+		</if>
+		<if test="Name != null">
+AND m.name = #{Name} 
+		</if>
+		<if test="Administrator != null">
+AND m.administrator = #{Administrator} 
+		</if>
+		<if test="Phone != null">
+AND m.phone = #{Phone} 
+		</if>
+		<if test="IdentityCard != null">
+AND m.identity_card = #{IdentityCard} 
+		</if>
+		<if test="Gender != null">
+AND m.gender = #{Gender} 
+		</if>
+		<if test="DanceTypesId != null">
+AND m.dance_types_id = #{DanceTypesId} 
+		</if>
+		<if test="Startdate != null and  Enddate != null">
+AND m.creation_time BETWEEN #{Startdate} AND #{Enddate} 
+		</if>
+ORDER BY m.creation_time
 	</select>
 	
 </mapper>

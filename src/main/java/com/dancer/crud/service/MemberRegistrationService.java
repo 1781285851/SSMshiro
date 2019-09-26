@@ -1,15 +1,23 @@
 package com.dancer.crud.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.dancer.crud.dao.MemberRegistrationDao;
 import com.dancer.crud.entity.MemberRegistration;
+import com.dancer.crud.entity.MemberRegistrationVo;
+import com.dancer.crud.entity.MemberVo;
 
 @Service
-public class MemberRegistrationService implements IMemberRegistrationService{
+public class MemberRegistrationService{
 	
 	@Autowired
 	MemberRegistrationDao memberRegistrationDao;
@@ -18,11 +26,10 @@ public class MemberRegistrationService implements IMemberRegistrationService{
 	MemberRegistration memberRegistration;
 	
 	/**
-	 * ¸ù¾İ¸ù¾İÉí·İÖ¤¿¨ºÅ²éÑ¯ÓÃ»§
+	 * æ ¹æ®èº«ä»½å·ç æŸ¥è¯¢è¯¥ä¼šå‘˜æ˜¯å¦å­˜åœ¨
 	 * @param IdentityCard
 	 * @return
 	 */
-	@Override
 	public MemberRegistration selectMenberByIdentityCardService(String IdentityCard) {
 		MemberRegistration member = memberRegistrationDao.selectMenberByIdentityCard(IdentityCard);
 		return member;
@@ -30,11 +37,10 @@ public class MemberRegistrationService implements IMemberRegistrationService{
 	
 	
 	/**
-	 * Ìí¼Ó»áÔ±  ÏÈÅĞ¶Ï¸Ä»áÔ±ÊÇ·ñ´æÔÚ£¬Èç¹û²»´æÔÚÔÙÌí¼Ó
+	 * æ·»åŠ ä¼šå‘˜
 	 * @param memberRegistration
 	 * @return
 	 */
-	@Override
 	public String insertMenberService(String ClubCard,String Name,String IdentityCard,String Phone,String qq,String Wechat,String Administrator,String Gender,Integer DanceTypesId){
 		MemberRegistration member = selectMenberByIdentityCardService(IdentityCard);
 		if(null==member){
@@ -47,22 +53,63 @@ public class MemberRegistrationService implements IMemberRegistrationService{
 			memberRegistration.setAdministrator(Administrator);
 			memberRegistration.setGender(Gender);
 			memberRegistration.setDanceTypesId(DanceTypesId);
+			//stateçŠ¶æ€0è¡¨ç¤ºè¯¥ç”¨æˆ·æœªåˆ é™¤
+			memberRegistration.setState("0");
 			Date creationTime=new Date();
 			memberRegistration.setCreationTime(creationTime);
-			memberRegistration.setState(0);
 			int num =  memberRegistrationDao.insertMenber(memberRegistration);
 			return "success";
 		}else{
 			return "failed";
 		}
 	}
+	
+/**
+ * ç»™ç”¨æˆ·æ·»åŠ ç…§ç‰‡	
+ * @param file
+ * @param IdentityCard
+ * @param memberRegistration
+ * @return
+ * @throws IOException
+ */
+public String insertPhotoService(MultipartFile file, String IdentityCard,MemberRegistration memberRegistration) throws IOException {
+		// ä¿å­˜å›¾ç‰‡çš„è·¯å¾„ï¼Œå›¾ç‰‡ä¸Šä¼ æˆåŠŸåï¼Œå°†è·¯å¾„ä¿å­˜åˆ°æ•°æ®åº“
+		String filePath = "E:\\imgs";
+		// è·å–åŸå§‹å›¾ç‰‡çš„æ‰©å±•å
+		String originalFilename = file.getOriginalFilename();
+		System.out.println("è·å–åŸå§‹å›¾ç‰‡çš„æ‰©å±•å:"+originalFilename);
+		// ç”Ÿæˆæ–‡ä»¶æ–°çš„åå­—
+		String newFileName = UUID.randomUUID() + originalFilename;
+		System.out.println("ç”Ÿæˆæ–‡ä»¶æ–°çš„åå­—:"+newFileName);
+		// å°è£…ä¸Šä¼ æ–‡ä»¶ä½ç½®çš„å…¨è·¯å¾„
+		File targetFile = new File(filePath, newFileName);
+		System.out.println("å°è£…ä¸Šä¼ æ–‡ä»¶ä½ç½®çš„å…¨è·¯å¾„ï¼š"+targetFile);
+		file.transferTo(targetFile);	
+		String phoString = targetFile.toString();
+		// ä¿å­˜åˆ°æ•°æ®åº“
+		memberRegistration.setPhoto(phoString);
+		memberRegistration.setIdentityCard(IdentityCard);
+		memberRegistrationDao.insertPhoto(memberRegistration);
+		return "ok";
+	}
+
+	/**
+	 * æ ¹æ®èº«ä»½è¯å·ç åˆ é™¤ç”¨æˆ·
+	 * @param IdentityCard
+	 * @return
+	 */
+	public int deleteMemService(String IdentityCard) {
+		int num = memberRegistrationDao.deleteMem(IdentityCard);
+		System.out.println("service:"+num);
+		return num;
+	}
+
 
 	
 	/**
-	 * ²éÑ¯ËùÓĞ»áÔ±×ÜÊı
+	 * æŸ¥è¯¢ä¼šå‘˜æ€»æ•°
 	 * @return
 	 */
-	@Override
 	public int selectCountService() {
 		int sum = memberRegistrationDao.selectCount();
 		return sum;
@@ -70,10 +117,9 @@ public class MemberRegistrationService implements IMemberRegistrationService{
 
 	
 	/**
-	 * ²éÑ¯Breaking»áÔ±×ÜÊı
+	 * æŸ¥è¯¢Breakingä¼šå‘˜æ€»æ•°
 	 * @return
 	 */
-	@Override
 	public int selectCountByBreakingService() {
 		int sumBreaking = memberRegistrationDao.selectCountByBreaking();
 		return sumBreaking;
@@ -81,76 +127,81 @@ public class MemberRegistrationService implements IMemberRegistrationService{
 
 	
 	/**
-	 * ²éÑ¯Poppin»áÔ±×ÜÊı
+	 * æŸ¥è¯¢yPoppinä¼šå‘˜æ€»æ•°
 	 * @return
 	 */
-	@Override
 	public int selectCountByPoppinService() {
 		int sumPoppin = memberRegistrationDao.selectCountByPoppin();
 		return sumPoppin;
 	}
 
 	/**
-	 * ²éÑ¯Locking»áÔ±×ÜÊı
+	 * æŸ¥è¯¢Lockingä¼šå‘˜æ€»æ•°
 	 * @return
 	 */
-	@Override
 	public int selectCountByLockingService() {
 		int sumLocking = memberRegistrationDao.selectCountByLocking();
 		return sumLocking;
 	}
 
 	/**
-	 * ²éÑ¯Hiphop»áÔ±×ÜÊı
+	 * æŸ¥è¯¢Hiphopä¼šå‘˜æ€»æ•°
 	 * @return
 	 */
-	@Override
 	public int selectCountByHiphopService() {
 		int sumHiphop = memberRegistrationDao.selectCountByHiphop();
 		return sumHiphop;
 	}
 
 	/**
-	 * ²éÑ¯Jazz»áÔ±×ÜÊı
+	 * æŸ¥è¯¢Jazzä¼šå‘˜æ€»æ•°
 	 * @return
 	 */
-	@Override
 	public int selectCountByJazzService() {
 		int sumJazz = memberRegistrationDao.selectCountByJazz();
 		return sumJazz;
 	}
 
 	/**
-	 * ²éÑ¯Shuffle»áÔ±×ÜÊı
+	 * æŸ¥å¯»Shuffleä¼šå‘˜æ€»æ•°
 	 * @return
 	 */
-	@Override
 	public int selectCountByShuffleService() {
 		int sumShuffle = memberRegistrationDao.selectCountByShuffle();
 		return sumShuffle;
 	}
 
 	/**
-	 * ²éÑ¯Urban»áÔ±×ÜÊı
+	 * æŸ¥è¯¢Urbanä¼šå‘˜æ€»æ•°
 	 * @return
 	 */
-	@Override
 	public int selectCountByUrbanService() {
 		int sumUrban = memberRegistrationDao.selectCountByUrban();
 		return sumUrban;
 	}
 
 	/**
-	 * ²éÑ¯Wacking»áÔ±×ÜÊı
+	 * æŸ¥è¯¢Wackingä¼šå‘˜æ€»æ•°
 	 * @return
 	 */
-	@Override
 	public int selectCountByWackingService() {
 		int sumWacking = memberRegistrationDao.selectCountByWacking();
 		return sumWacking;
 	}
-
-
-
 	
+	/**
+	 * æ ¹æ®æ¡ä»¶æŸ¥è¯¢ä¼šå‘˜æ•°æ®
+	 * @param memberVo
+	 * @return
+	 */
+	public List<MemberRegistrationVo> selectMenberService(String ClubCard,String Name,
+			 												String Administrator,String Phone,
+			 												String IdentityCard,String Gender,
+			 												String DanceTypesId,String Startdate,
+			 												String Enddate) {
+		List<MemberRegistrationVo> mem = memberRegistrationDao.selectMenber(ClubCard,Name,
+				Administrator,Phone,IdentityCard,Gender,DanceTypesId,Startdate,Enddate);
+		return mem;
+	}
+
 }

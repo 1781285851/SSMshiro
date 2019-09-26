@@ -1,3 +1,8 @@
+$(document).ready(function(){
+	selectCount();
+	});
+
+
 //获取当前项目名称路径（http://localhost:8080/ssm/）
 function getRootPath() {
     var pathName = window.location.pathname.substring(1);
@@ -5,12 +10,19 @@ function getRootPath() {
     return window.location.protocol + '//' + window.location.host + '/' + webName + '/';
 }
 
-$(document).ready(function () {
-	alert("进来ready方法");
-	selectCount();
-});
 
+//查询会员总数
 function selectCount(){
-	alert("aaaaaaaaaaa");
-	this.location.href=getRootPath()+"selectCount"
+	$.ajax({
+		type:"POST",
+		url:getRootPath()+"selectCount",
+		dataType:"json",
+		data:{
+			
+		},
+		success:function(result,testStatus){//result代表从后台controller的return值，但是前台controller需要@ResponseBody注解
+		
+		}
+	});
 }
+

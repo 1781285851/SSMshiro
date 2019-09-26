@@ -8,14 +8,14 @@ import com.dancer.crud.entity.Administrator;
 public interface AdministratorMapperDao {
 	
 	/**
-	 * ×¢²á¹ÜÀíÔ±£¨Ôö¼Ó¹ÜÀíÔ±ÕËºÅ£©
+	 * æ·»åŠ ç®¡ç†å‘˜è´¦å·
 	 * @param administrator
 	 * @return
 	 */
 	int insert(Administrator administrator);
 	
 	/**
-	 * ²éÑ¯¹ÜÀíÔ±ĞÅÏ¢
+	 * æŸ¥è¯¢ç®¡ç†å‘˜è´¦å·
 	 * @param name
 	 * @return
 	 */

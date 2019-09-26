@@ -1,5 +1,6 @@
 package com.dancer.crud.controller;
 
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class RedirectionController {
 	
 	/**
-	 * 映射,打开loginAndRegisterindexs.jsp页面,此处是登录和注册的页面
+	 * 娌＄櫥褰曟槸鑷姩璺宠浆杩欎釜椤甸潰
 	 * @return
 	 */
 	@RequestMapping(value="login", method = RequestMethod.GET)
@@ -19,11 +20,13 @@ public class RedirectionController {
 	
 	
 	@RequestMapping(value="components", method = RequestMethod.GET)
+	@RequiresRoles(value={"T1","T2"},logical = Logical.OR)
 	public String components(){
 		return "modules/sys/components";
 	}
 	
 	@RequestMapping(value="forms", method = RequestMethod.GET)
+	@RequiresRoles(value={"T1","T2"},logical = Logical.OR)
 	public String forms(){
 		return "modules/sys/forms";
 	}
@@ -36,19 +39,23 @@ public class RedirectionController {
 	}
 	
 	@RequestMapping(value="dashboard", method = RequestMethod.GET)
+	@RequiresRoles(value={"T1","T2"},logical = Logical.OR)
 	public String index(){
 		return "modules/sys/index";
 	}
 	
 	@RequestMapping(value="memberRegistration", method = RequestMethod.GET)
+	@RequiresRoles(value={"T1","T2"},logical = Logical.OR)
 	public String notifications(){
 		return "modules/sys/memberRegistration";
 	}
 	@RequestMapping(value="tables", method = RequestMethod.GET)
+	@RequiresRoles(value={"T1","T2"},logical = Logical.OR)
 	public String tables(){
 		return "modules/sys/tables";
 	}
 	@RequestMapping(value="typography", method = RequestMethod.GET)
+	@RequiresRoles(value={"T1","T2"},logical = Logical.OR)
 	public String typography(){
 		return "modules/sys/typography";
 	}

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <% 
 String path = request.getContextPath();
 // 获得本项目的地址(例如: http://localhost:8080/ssm/)赋值给basePath变量    
@@ -18,205 +19,126 @@ pageContext.setAttribute("basePath",basePath);
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
 	<link rel="stylesheet" href="${pageScope.basePath}static/modules/sys/assets/css/ready.css">
 	<link rel="stylesheet" href="${pageScope.basePath}static/modules/sys/assets/css/demo.css">
+	<script src="${pageScope.basePath}static/modules/sys/assets/js/core/jquery.3.2.1.min.js"></script>
+	<script type="text/javascript" src="${pageScope.basePath}static/modules/sys/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="${pageScope.basePath}static/modules/sys/assets/js/core/popper.min.js"></script>
+	<script type="text/javascript" src="${pageScope.basePath}static/modules/sys/assets/js/core/bootstrap.min.js"></script>
+	<script type="text/javascript" src="${pageScope.basePath}static/modules/sys/assets/js/plugin/chartist/chartist.min.js"></script>
+	<script type="text/javascript" src="${pageScope.basePath}static/modules/sys/assets/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
+	<script type="text/javascript" src="${pageScope.basePath}static/modules/sys/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+	<script type="text/javascript" src="${pageScope.basePath}static/modules/sys/assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
+	<script type="text/javascript" src="${pageScope.basePath}static/modules/sys/assets/js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
+	<script type="text/javascript" src="${pageScope.basePath}static/modules/sys/assets/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
+	<script type="text/javascript" src="${pageScope.basePath}static/modules/sys/assets/js/plugin/chart-circle/circles.min.js"></script>
+	<script type="text/javascript" src="${pageScope.basePath}static/modules/sys/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+	<script type="text/javascript" src="${pageScope.basePath}static/modules/sys/assets/js/ready.min.js"></script>
+	<script type="text/javascript" src="${pageScope.basePath}static/modules/sys/components.js"></script>
 </head>
 <body>
+
+
+
+<!-- 员工添加的模态框 -->
+<div class="modal fade" id="empAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h4 class="modal-title" id="myModalLabel">照片</h4>
+      </div>
+      <form action="save" method="post" enctype="multipart/form-data">
+      	 <div class="col-sm-12" id="identityCard">
+		</div>
+		<img src="" alt="该会员未添加照片" class="img-rounded" height="200"><br>
+		图片:<input type="file" name="file"> <br>
+      	<div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button  type="submit" class="btn btn-primary">上传</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
 	<div class="wrapper">
-		<div class="main-header">
-			<div class="logo-header">
-				<a href="index.html" class="logo">
-					Hello DE
-				</a>
-				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<button class="topbar-toggler more"><i class="la la-ellipsis-v"></i></button>
-			</div>
-			<nav class="navbar navbar-header navbar-expand-lg">
-				<div class="container-fluid">
-					
-					<form class="navbar-left navbar-form nav-search mr-md-3" action="">
-						<div class="input-group">
-							<input type="text" placeholder="Search ..." class="form-control">
-							<div class="input-group-append">
-								<span class="input-group-text">
-									<i class="la la-search search-icon"></i>
-								</span>
-							</div>
-						</div>
-					</form>
-					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-						<li class="nav-item dropdown hidden-caret">
-							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<i class="la la-envelope"></i>
-							</a>
-							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-								<a class="dropdown-item" href="#">Action</a>
-								<a class="dropdown-item" href="#">Another action</a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="#">Something else here</a>
-							</div>
-						</li>
-						<li class="nav-item dropdown hidden-caret">
-							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<i class="la la-bell"></i>
-								<span class="notification">3</span>
-							</a>
-							<ul class="dropdown-menu notif-box" aria-labelledby="navbarDropdown">
-								<li>
-									<div class="dropdown-title">You have 4 new notification</div>
-								</li>
-								<li>
-									<div class="notif-center">
-										<a href="#">
-											<div class="notif-icon notif-primary"> <i class="la la-user-plus"></i> </div>
-											<div class="notif-content">
-												<span class="block">
-													New user registered
-												</span>
-												<span class="time">5 minutes ago</span> 
-											</div>
-										</a>
-										<a href="#">
-											<div class="notif-icon notif-success"> <i class="la la-comment"></i> </div>
-											<div class="notif-content">
-												<span class="block">
-													Rahmad commented on Admin
-												</span>
-												<span class="time">12 minutes ago</span> 
-											</div>
-										</a>
-										<a href="#">
-											<div class="notif-img"> 
-												<img src="${pageScope.basePath}static/modules/sys/assets/img/profile2.jpg" alt="Img Profile">
-											</div>
-											<div class="notif-content">
-												<span class="block">
-													Reza send messages to you
-												</span>
-												<span class="time">12 minutes ago</span> 
-											</div>
-										</a>
-										<a href="#">
-											<div class="notif-icon notif-danger"> <i class="la la-heart"></i> </div>
-											<div class="notif-content">
-												<span class="block">
-													Farrah liked Admin
-												</span>
-												<span class="time">17 minutes ago</span> 
-											</div>
-										</a>
-									</div>
-								</li>
-								<li>
-									<a class="see-all" href="javascript:void(0);"> <strong>See all notifications</strong> <i class="la la-angle-right"></i> </a>
-								</li>
-							</ul>
-						</li>
-						<li class="nav-item dropdown">
-							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img src="${pageScope.basePath}static/modules/sys/assets/img/profile.jpg" alt="user-img" width="36" class="img-circle"><span >Hizrian</span></span> </a>
-							<ul class="dropdown-menu dropdown-user">
-								<li>
-									<div class="user-box">
-										<div class="u-img"><img src="${pageScope.basePath}static/modules/sys/assets/img/profile.jpg" alt="user"></div>
-										<div class="u-text">
-											<h4>Hizrian</h4>
-											<p class="text-muted">hello@themekita.com</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
-										</div>
-									</li>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="#"><i class="ti-user"></i> My Profile</a>
-									<a class="dropdown-item" href="#"></i> My Balance</a>
-									<a class="dropdown-item" href="#"><i class="ti-email"></i> Inbox</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="#"><i class="ti-settings"></i> Account Setting</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="#"><i class="fa fa-power-off"></i> Logout</a>
-								</ul>
-								<!-- /.dropdown-user -->
-							</li>
-						</ul>
-					</div>
-				</nav>
-			</div>
+	<!-- 这里引入jsp。里面是公共页面，是页面最上侧一栏 -->
+	<jsp:include page="common.jsp" />
+			<!-- 显示左侧一栏的信息 -->
 			<div class="sidebar">
 				<div class="scrollbar-inner sidebar-wrapper">
 					<div class="user">
-						<div class="photo">
-							<img src="${pageScope.basePath}static/modules/sys/assets/img/profile.jpg">
-						</div>
 						<div class="info">
 							<a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
-									Hizrian
-									<span class="user-level">Administrator</span>
-									<span class="caret"></span>
+									<span class="lead"><%=session.getAttribute("name")%></span>
 								</span>
 							</a>
 							<div class="clearfix"></div>
 
-							<div class="collapse in" id="collapseExample" aria-expanded="true" style="">
-								<ul class="nav">
-									<li>
-										<a href="#profile">
-											<span class="link-collapse">My Profile</span>
-										</a>
-									</li>
-									<li>
-										<a href="#edit">
-											<span class="link-collapse">Edit Profile</span>
-										</a>
-									</li>
-									<li>
-										<a href="#settings">
-											<span class="link-collapse">Settings</span>
-										</a>
-									</li>
-								</ul>
-							</div>
 						</div>
 					</div>
+		
+					
 					<ul class="nav">
-						<li class="nav-item">
+						<li class="nav-item ">
+						<shiro:hasAnyRoles name="T1,T2">
 							<a href="dashboard">
 								<i class="la la-dashboard"></i>
 								<p>首页</p>
 								<span class="badge badge-count">5</span>
 							</a>
+						</shiro:hasAnyRoles>
 						</li>
 						<li class="nav-item active">
+						<shiro:hasAnyRoles name="T1,T2">
 							<a href="components">
 								<i class="la la-table"></i>
 								<p>Components</p>
 								<span class="badge badge-count">14</span>
 							</a>
+						</shiro:hasAnyRoles>
 						</li>
 						<li class="nav-item">
+						<shiro:hasAnyRoles name="T1,T2">
 							<a href="forms">
 								<i class="la la-keyboard-o"></i>
 								<p>Forms</p>
 								<span class="badge badge-count">50</span>
 							</a>
+						</shiro:hasAnyRoles>
 						</li>
 						<li class="nav-item">
+						<shiro:hasAnyRoles name="T1,T2">
 							<a href="tables">
 								<i class="la la-th"></i>
-								<p>Tables</p>
+								<p>tables</p>
 								<span class="badge badge-count">6</span>
 							</a>
+						</shiro:hasAnyRoles>
 						</li>
 						<li class="nav-item">
+						<shiro:hasAnyRoles name="T1,T2">
 							<a href="memberRegistration">
 								<i class="la la-bell"></i>
 								<p>会员注册</p>
 								<span class="badge badge-success">3</span>
 							</a>
+						</shiro:hasAnyRoles>	
 						</li>
 						<li class="nav-item">
+						<shiro:hasAnyRoles name="T1,T2">
 							<a href="typography">
 								<i class="la la-font"></i>
 								<p>Typography</p>
 								<span class="badge badge-danger">25</span>
 							</a>
+						</shiro:hasAnyRoles>
 						</li>
 						<li class="nav-item">
 							<shiro:hasRole name="T1">
@@ -235,418 +157,145 @@ pageContext.setAttribute("basePath",basePath);
 					</ul>
 				</div>
 			</div>
+			<!-- 显示右侧一栏的信息 -->
 			<div class="main-panel">
 				<div class="content">
 					<div class="container-fluid">
-						<h4 class="page-title">Component</h4>
 						<div class="row">
 							<div class="col-md-12">
 								<div class="card">
 									<div class="card-header">
-										<h4 class="card-title">Button Original</h4>
-										<p class="card-category">Here is a subtitle for this table</p>
+										<h4 class="card-title">会员管理</h4>
+										<p class="card-category">按照单条件或者多条件进行查询</p>
 									</div>
-									<div class="card-body">
+									<div class="row">
 										<p class="demo">
-											<button class="btn btn-default">Default</button>
-
-											<button class="btn btn-primary">Primary</button>
-
-											<button class="btn btn-info">Info</button>
-
-											<button class="btn btn-success">Success</button>
-
-											<button class="btn btn-warning">Warning</button>
-
-											<button class="btn btn-danger">Danger</button>
-
-											<button class="btn btn-link">Link</button>
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">Disabled Button</h4>
-										<p class="card-category">Here is a subtitle for this table</p>
-									</div>
-									<div class="card-body">
-										<p class="demo">
-											<button class="btn btn-default" disabled="disabled">Default</button>
-
-											<button class="btn btn-primary" disabled="disabled">Primary</button>
-
-											<button class="btn btn-info" disabled="disabled">Info</button>
-
-											<button class="btn btn-success" disabled="disabled">Success</button>
-
-											<button class="btn btn-warning" disabled="disabled">Warning</button>
-
-											<button class="btn btn-danger" disabled="disabled">Danger</button>
-
-											<button class="btn btn-link" disabled>Link</button>
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">Button Size</h4>
-										<p class="card-category">Here is a subtitle for this table</p>
-									</div>
-									<div class="card-body">
-										<p class="demo">
-											<button class="btn btn-primary btn-lg">Large</button>
-
-											<button class="btn btn-primary">Normal</button>
-
-											<button class="btn btn-primary btn-sm">Small</button>
-
-											<button class="btn btn-primary btn-xs">Extra Small</button>
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">Button Type</h4>
-										<p class="card-category">Here is a subtitle for this table</p>
-									</div>
-									<div class="card-body">
-										<p class="demo">
-											<button class="btn btn-primary">Normal</button>
-											<button class="btn btn-primary btn-border">Border</button>
-
-											<button class="btn btn-primary btn-round">Round</button>
-
-											<button class="btn btn-primary btn-border btn-round">Round</button>
-
-											<button class="btn btn-primary btn-link">Link</button>
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">Checkbox</h4>
-										<p class="card-category">Here is a subtitle for this table</p>
-									</div>
-									<div class="card-body">
-										<p class="demo">
-											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" value="">
-												<span class="form-check-sign">Unchecked</span>
-											</label>
-
-											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" value="" checked>
-												<span class="form-check-sign">Checked</span>
-											</label>
-
-											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" value="" disabled>
-												<span class="form-check-sign">Disabled</span>
-											</label>
-
-											<label class="form-check-label">
-												<input class="form-check-input" type="checkbox" value="" checked disabled>
-												<span class="form-check-sign">Checked Disabled</span>
-											</label>
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">Radio</h4>
-										<p class="card-category">Here is a subtitle for this table</p>
-									</div>
-									<div class="card-body">
-										<p class="demo">
-											<label class="form-radio-label">
-												<input class="form-radio-input" type="radio" name="optionsRadios" value="">
-												<span class="form-radio-sign">Unchecked</span>
-											</label>
-											<label class="form-radio-label">
-												<input class="form-radio-input" type="radio" name="optionsRadios" value="" checked>
-												<span class="form-radio-sign">Checked</span>
-											</label>
-											<label class="form-radio-label">
-												<input class="form-radio-input" type="radio" value="" disabled>
-												<span class="form-radio-sign">Disabled</span>
-											</label>
-											<label class="form-radio-label">
-												<input class="form-radio-input" type="radio" value="" checked disabled>
-												<span class="form-radio-sign">Checked Disabled</span>
-											</label>
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">Bootstrap Switch</h4>
-										<p class="card-category">Here is a subtitle for this table</p>
-									</div>
-									<div class="card-body">
-										<p class="demo">
-											<input type="checkbox" checked data-toggle="toggle" data-onstyle="default">
-											<input type="checkbox" checked data-toggle="toggle" data-onstyle="primary">
-											<input type="checkbox" checked data-toggle="toggle" data-onstyle="success">
-											<input type="checkbox" checked data-toggle="toggle" data-onstyle="info">
-											<input type="checkbox" checked data-toggle="toggle" data-onstyle="warning">
-											<input type="checkbox" checked data-toggle="toggle" data-onstyle="danger">
-										</p>
-										<p class="demo">
-											<input type="checkbox" checked data-toggle="toggle" data-onstyle="default" data-style="btn-round">
-											<input type="checkbox" checked data-toggle="toggle" data-onstyle="primary" data-style="btn-round">
-											<input type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-style="btn-round">
-											<input type="checkbox" checked data-toggle="toggle" data-onstyle="info" data-style="btn-round">
-											<input type="checkbox" checked data-toggle="toggle" data-onstyle="warning" data-style="btn-round">
-											<input type="checkbox" checked data-toggle="toggle" data-onstyle="danger" data-style="btn-round">
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">Bootstrap Dropdown</h4>
-										<p class="card-category">Here is a subtitle for this table</p>
-									</div>
-									<div class="card-body">
-										<p class="demo">
-											<div class="dropdown">
-
-												<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-
-													Dropdown
-
-												</button>
-
-												<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
-
-													<a class="dropdown-item" href="#">Action</a>
-													<a class="dropdown-item" href="#">Another action</a>
-													<div class="dropdown-divider"></div>
-													<a class="dropdown-item" href="#">Something else here</a>
-
-												</ul>
-
-											</div>
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">Progress Bar</h4>
-										<p class="card-category">Here is a subtitle for this table</p>
-									</div>
-									<div class="card-body">
-										<div class="row">
-											<div class="col-md-6">
-												<p class="demo">
-													<div class="progress">
-														<div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-													</div>
-												</p>
-												<p class="demo">
-													<div class="progress">
-														<div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-													</div>
-												</p>
-												<p class="demo">
-													<div class="progress">
-														<div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-													</div>
-												</p>
-												<p class="demo">
-													<div class="progress">
-														<div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-													</div>
-												</p>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">Bootstrap Input</h4>
-										<p class="card-category">Here is a subtitle for this table</p>
-									</div>
-									<div class="card-body">
-										<p class="demo">
-											<div class="row">
-												<div class="col-md-6">
-													<div class="form-group">
-
-														<input type="text" value="" placeholder="Input" class="form-control" />
-
-													</div>
-												</div>
-
-												<div class="col-md-6">
+												<div class="col-md-2">
 													<div class="form-group has-success">
-
-														<input type="text" value="Success" class="form-control" />
-
+													姓名：
+														<input type="text" value="" class="form-control" id="yhm"/>
 													</div>
 												</div>
-
-												<div class="col-md-6">
-													<div class="form-group has-error has-feedback">
-
-														<input type="text" value="Error" class="form-control" />
-
-														<span class="la la-times form-control-feedback"></span>
-
+												<div class="col-md-2">
+													<div class="form-group has-success">
+													会员卡号:
+														<input type="text" value="" class="form-control" id="hykh"/>
 													</div>
 												</div>
-
-												<div class="col-md-6">
-													<div class="form-group">
-														<div class="input-group has-icon">
-
-															<input type="text" value="Group Addon" class="form-control">
-
-															<div class="input-group-append">
-																<span class="input-group-text input-group-icon"><i class="la la-keyboard-o"></i></span>
-															</div>
-														</div>
+												<div class="col-md-2">
+													<div class="form-group has-success">
+													注册人员：
+														<input type="text" value="" class="form-control" id="czry"/>
 													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group has-success">
+													联系电话：
+														<input type="text" value="" class="form-control" id="lxdh"/>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group has-success">
+													身份证号码：
+														<input type="text" value="" class="form-control" id="sfzhm"/>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group has-success">
+													性别:
+													<select class="form-control input-fixed" id="xb">
+														<option value="2">请选择性别....</option>
+														<option value="0">女</option>
+														<option value="1">男</option>
+														
+													</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group has-success">
+													舞种：
+														<select class="form-control input-fixed" id="wz">
+														<option value="0">请选择舞种....</option>
+														<option value="1">Breaking</option>
+														<option value="2">Poppin</option>
+														<option value="3">Locking</option>
+														<option value="4">HipHop</option>
+														<option value="5">Jazz</option>
+														<option value="6">Shuffle</option>
+														<option value="7">Urban</option>
+														<option value="8">Wacking</option>
+													</select>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group has-success">
+													开始时间：
+														<input class="form-control" id="startdate" type="date"/>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group has-success">
+													结束时间：
+														<input class="form-control" id="enddate" type="date"/>
+													</div>
+												</div>
+												<div class="col-md-3">
+													<div class="form-group has-success">
+														<button class="btn btn-primary" type="button" onclick="selectMenberAll()">查询</button>
+														<button class="btn btn-info" type="button" onclick="Condition()">重置</button>
 												</div>
 											</div>
 										</p>
 									</div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">Nav Pills</h4>
-										<p class="card-category">Here is a subtitle for this table</p>
+							
+								<!-- 搭建显示页面 -->
+								<div class="container">
+									<!-- 标题 -->
+									<div class="row">
+										<div class="col-md-12">
+										<p class="card-category">对单条件或者多条件查询到的数据以及不按条件查询所有数据进行显示</p>
+										</div>
 									</div>
-									<div class="card-body">
-										<ul class="nav nav-pills nav-primary">
-											<li class="nav-item">
-												<a class="nav-link active" href="#">Active</a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="#">Link</a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link" href="#">Link</a>
-											</li>
-											<li class="nav-item">
-												<a class="nav-link disabled" href="#">Disabled</a>
-											</li>
-										</ul>
+									<!-- 显示表格数据 -->
+									<div class="row">
+										<div class="col-md-12">
+											<table class="table table-hover" id="emps_table">
+												<thead>
+												<tr>
+													<th>#</th>
+													<th>姓名</th>
+													<th>性别</th>
+													<th>会员卡号</th>
+													<th>舞种名称</th>
+													<th>身份证号码</th>
+													<th>电话</th>
+													<th>创建时间</th>
+													<th>注册人</th>
+													<th>操作</th>
+												</tr>
+												</thead>
+												<tbody>
+					
+												</tbody>
+											</table>
+										</div>
 									</div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">Pagination</h4>
-										<p class="card-category">Here is a subtitle for this table</p>
-									</div>
-									<div class="card-body">
-										<p class="demo">
-											<ul class="pagination pg-primary">
-												<li class="page-item">
-													<a class="page-link" href="#" aria-label="Previous">
-														<span aria-hidden="true">&laquo;</span>
-														<span class="sr-only">Previous</span>
-													</a>
-												</li>
-												<li class="page-item active"><a class="page-link" href="#">1</a></li>
-												<li class="page-item"><a class="page-link" href="#">2</a></li>
-												<li class="page-item"><a class="page-link" href="#">3</a></li>
-												<li class="page-item">
-													<a class="page-link" href="#" aria-label="Next">
-														<span aria-hidden="true">&raquo;</span>
-														<span class="sr-only">Next</span>
-													</a>
-												</li>
-											</ul>
-										</p>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">Slider</h4>
-										<p class="card-category">Here is a subtitle for this table</p>
-									</div>
-									<div class="card-body">
-										<div class="demo">
-											<div class="row">
-												<div class="col-md-6">
-													<div id="slider" class="slider-primary"></div>
-
-													<div id="slider-range" class="slider-success"></div>
-												</div>
-											</div>
+							
+									<!-- 显示分页信息 -->
+									<div class="row">
+										<!--分页文字信息  -->
+										<div class="col-md-6" id="page_info_area"></div>
+										<!-- 分页条信息 -->
+										<div class="col-md-6" id="page_nav_area">
+										
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="col-md-12">
-								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title">Badge</h4>
-										<p class="card-category">Here is a subtitle for this table</p>
-									</div>
-									<div class="card-body">
-										<span class="badge badge-count">Count</span>
-										<span class="badge badge-default">Default</span>
-										<span class="badge badge-primary">Primary</span>
-										<span class="badge badge-info">Info</span>
-										<span class="badge badge-success">Success</span>
-										<span class="badge badge-warning">Warning</span>
-										<span class="badge badge-danger">Danger</span>
-									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<footer class="footer">
-					<div class="container-fluid">
-						<nav class="pull-left">
-							<ul class="nav">
-								<li class="nav-item">
-									<a class="nav-link" href="#">
-										ThemeKita
-									</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="#">
-										Help
-									</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="#license/#free-item">
-										Licenses
-									</a>
-								</li>
-							</ul>
-						</nav>
-						<div class="copyright ml-auto">
-							2018, made with <i class="la la-heart heart text-danger"></i> by <a href="#">ThemeKita</a> - More Templates <a href="http://www.cssmoban.com/" target="_blank" title="æ¨¡æ¿ä¹å®¶">æ¨¡æ¿ä¹å®¶</a> - Collect from <a href="http://www.cssmoban.com/" title="ç½é¡µæ¨¡æ¿" target="_blank">ç½é¡µæ¨¡æ¿</a></div>				
-					</div>
-				</footer>
 			</div>
 		</div>
 	</div>
@@ -672,19 +321,7 @@ pageContext.setAttribute("basePath",basePath);
 		</div>
 	</div>
 </body>
-<script src="${pageScope.basePath}static/modules/sys/assets/js/core/jquery.3.2.1.min.js"></script>
-<script src="${pageScope.basePath}static/modules/sys/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
-<script src="${pageScope.basePath}static/modules/sys/assets/js/core/popper.min.js"></script>
-<script src="${pageScope.basePath}static/modules/sys/assets/js/core/bootstrap.min.js"></script>
-<script src="${pageScope.basePath}static/modules/sys/assets/js/plugin/chartist/chartist.min.js"></script>
-<script src="${pageScope.basePath}static/modules/sys/assets/js/plugin/chartist/plugin/chartist-plugin-tooltip.min.js"></script>
-<script src="${pageScope.basePath}static/modules/sys/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
-<script src="${pageScope.basePath}static/modules/sys/assets/js/plugin/bootstrap-toggle/bootstrap-toggle.min.js"></script>
-<script src="${pageScope.basePath}static/modules/sys/assets/js/plugin/jquery-mapael/jquery.mapael.min.js"></script>
-<script src="${pageScope.basePath}static/modules/sys/assets/js/plugin/jquery-mapael/maps/world_countries.min.js"></script>
-<script src="${pageScope.basePath}static/modules/sys/assets/js/plugin/chart-circle/circles.min.js"></script>
-<script src="${pageScope.basePath}static/modules/sys/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
-<script src="${pageScope.basePath}static/modules/sys/assets/js/ready.min.js"></script>
+
 <script>
 	$( function() {
 		$( "#slider" ).slider({
